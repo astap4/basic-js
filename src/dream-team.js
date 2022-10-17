@@ -3,8 +3,8 @@ const { NotImplementedError } = require('../extensions/index.js');
 /**
  * Create name of dream team based on the names of its members
  *  
- * @param {Array} members names of the members 
  * @return {String | Boolean} name of the team or false
+ * @param {Array} members names of the members 
  * in case of incorrect members
  *
  * @example

@@ -18,24 +18,40 @@ const { NotImplementedError } = require('../extensions/index.js');
 // --double-next duplicates the next element of the array in the transformed array.
 // --double-prev duplicates the previous element of the array in the transformed array.
 function transform(arr) {
-  const copyArr = arr.slice();
-  const newArr =[];
-  const control1 = '--discard-next';
-  const control2 = '--discard-prev';
-  const control3 = '--double-next';
-  const control4 = '--double-prev';
+  const newArr = [];
+  if (!Array.isArray(arr)) {
+    throw new Error('\'arr\' parameter must be an instance of the Array!');
+  }
 
-  // let arr = [1, 2];
-  // alert( arr.concat([3, 4]) ); 
-  // 1,2,3,4
-  for (let i =0; i < arr.length; i++) {
-    if(arr[i] === control1) {
-      copyArr.splice(i, 2);
-    }
-    if(arr[i] === control2) {
-      newArr.push(splice(i - 1, 2));
+  for (let i = 0; i < arr.length; i++) {
+    switch (arr[i]) {
+      case '--discard-prev':
+        if (arr[i - 2] !== '--discard-next' && i > 0) {
+          newArr.pop();
+        }
+        break;
+      case '--discard-next':
+        i++;
+        break;
+      case '--double-prev':
+        if (i > 0 && arr[i - 2] !== '--discard-next') {
+          newArr.push(arr[i - 1]);
+        }
+        break;
+      case '--double-next':
+        if (i < arr.length - 1) {
+          newArr.push(arr[i + 1]);
+        }
+        break;
+
+      default:
+        if (arr[i - 1] !== '--discard-next' && i < arr.length) {
+          newArr.push(arr[i]);
+        }
     }
   }
+
+  return newArr;
 }
 
 module.exports = {

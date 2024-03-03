@@ -10,7 +10,12 @@ const chainMaker = {
     return this.chain.length;
   },
   addLink(value) {
-    this.chain.push(value !== undefined ? value.toString() : '')
+    if (value === null) {
+      this.chain.push('null')
+    } else {
+      this.chain.push(value.toString())
+    }
+
     return this;
   },
   removeLink(position) {
@@ -26,7 +31,9 @@ const chainMaker = {
     return this;
   },
   finishChain() {
-    return this.chain.map(el=> el = `( ${el} )`).join('~~');
+    const result = this.chain.map(el=> el = `( ${el} )`).join('~~');
+    this.chain = [];
+    return result;
   }
 };
 
